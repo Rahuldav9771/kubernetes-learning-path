@@ -1,0 +1,121 @@
+*****************YAML Files used in demo************************
+
+EXAMPLE OF LABELS
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: delhipod
+  labels:
+    env: development
+    class: pods
+spec:
+  containers:
+  - name: c00
+    image: ubuntu
+    command: ["/bin/bash", "-c", "while true; do echo Hello-Rahul; sleep 5; done"]
+
+
+
+
+***************************************************************************
+NODE SELECTOR EXAMPLE
+
+kind: Pod
+apiVersion: v1
+metadata:
+  name: nodelabels
+  labels:
+    env: development
+spec:
+    containers:
+    - name: c00
+      image: ubuntu
+      command: ["/bin/bash", "-c", "while true; do echo Hello-Rahul; sleep 5 ; done"]
+    nodeSelector:                                         
+      hardware: t2-medium
+*****************************************************************************************************
+EXAMPLE OF REPLICATION CONTROLLER
+
+kind: ReplicationController               
+apiVersion: v1
+metadata:
+  name: myreplica
+spec:
+  replicas: 5            
+  selector:        
+    myname: Rahul                             
+  template:                
+    metadata:
+      name: testpod6
+      labels:            
+        myname: Rahul
+    spec:
+     containers:
+     - name: c00
+       image: ubuntu
+       command: ["/bin/bash", "-c", "while true; do echo Hello-Rahul; sleep 5 ; done"]
+
+
+****************************************************************************************************************
+EXAMPLE OF REPLICA SET
+
+
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myrs
+spec:
+  replicas: 8
+  selector:
+    matchExpressions:
+      - key: myname
+        operator: In
+        values:
+          - Rahulk
+          - Rahul
+          - Rahulku
+      - key: env
+        operator: NotIn
+        values:
+          - production
+  template:
+    metadata:
+      labels:
+        myname: Rahul
+        env: dev
+    spec:
+      containers:
+        - name: c00
+          image: ubuntu
+          command:
+            - /bin/bash
+            - -c
+            - "while true; do echo 'Hello Ji! How are you'; sleep 5; done"
+
+
+**************************************END*****************************
+
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+   name: mydeployments
+spec:
+   replicas: 6
+   selector:     
+    matchLabels:
+     name: deployment
+   template:
+     metadata:
+       name: testpod
+       labels:
+         name: deployment
+     spec:
+      containers:
+      - name: c00
+        image: ubuntu
+        command: ["/bin/bash", "-c", "while true; do echo Hello Rahu! How are you; sleep 5; done"]
+
+
+*******************************************END********************
